@@ -4,24 +4,22 @@ import { Reqraph, SortedReqraph } from './reqraph';
 function validate(reqraph: Reqraph) {
 }
 
-export default function reqraph(reqraph: Reqraph = []): SortedReqraph {
-  validate(reqraph);
+type Sorted = { list: Reqraph, keys: string[], next: Reqraph };
 
-  const sortedReqraph = [];
+export default function reqraph(graph: Reqraph = []): SortedReqraph {
+  validate(graph);
 
-  let sorted = { list: [], keys: [], next: reqraph };
-
-  while (true) {
-    sorted = reduce(
+  function sortReqraph(input: Sorted, output: SortedReqraph): SortedReqraph {
+    const nextInput = reduce(
       (result, item) => {
         const newRequirements = difference(item.requirements, result.keys);
 
         if (item.requirements.length && newRequirements.length) {
           result.next.push(item);
         } else {
-          sorted = {
-            ...sorted,
-            next: remove(r => r.key === item.key, sorted.next),
+          input = {
+            ...input,
+            next: remove(r => r.key === item.key, input.next),
           };
 
           result.list.push(item);
@@ -29,14 +27,16 @@ export default function reqraph(reqraph: Reqraph = []): SortedReqraph {
         }
         return result;
       },
-      { list: [], keys: sorted.keys, next: [] },
-      sorted.next,
+      { list: [], keys: input.keys, next: [] },
+      input.next,
     );
 
-    if (sorted.list.length === 0) break;
+    if (!nextInput.list.length) return output;
 
-    sortedReqraph.push(sorted.list);
+    output.push(nextInput.list);
+
+    return sortReqraph(nextInput, output);
   }
 
-  return sortedReqraph;
+  return sortReqraph({ list: [], keys: [], next: graph }, []);
 }
