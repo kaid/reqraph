@@ -9,19 +9,19 @@ export default function reqraph(reqraph: Reqraph = []): SortedReqraph {
 
   const sortedReqraph = [];
 
-  let ranked = { list: [], keys: [], next: reqraph };
+  let sorted = { list: [], keys: [], next: reqraph };
 
   while (true) {
-    ranked = reduce(
+    sorted = reduce(
       (result, item) => {
-        const newRequirements = difference(item.requirements, ranked.keys);
+        const newRequirements = difference(item.requirements, result.keys);
 
         if (item.requirements.length && newRequirements.length) {
           result.next.push(item);
         } else {
-          ranked = {
-            ...ranked,
-            next: remove(r => r.key === item.key, ranked.next),
+          sorted = {
+            ...sorted,
+            next: remove(r => r.key === item.key, sorted.next),
           };
 
           result.list.push(item);
@@ -29,13 +29,13 @@ export default function reqraph(reqraph: Reqraph = []): SortedReqraph {
         }
         return result;
       },
-      { list: [], keys: ranked.keys, next: [] },
-      ranked.next,
+      { list: [], keys: sorted.keys, next: [] },
+      sorted.next,
     );
 
-    if (ranked.list.length === 0) break;
+    if (sorted.list.length === 0) break;
 
-    sortedReqraph.push(ranked.list);
+    sortedReqraph.push(sorted.list);
   }
 
   return sortedReqraph;

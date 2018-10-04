@@ -1,10 +1,10 @@
 {
   "name": "reqraph",
   "version": "0.0.1",
-  "description": "A request scheduler.",
+  "description": "A requirements scheduler.",
   "main": "index.js",
   "repository": "https://github.com/kaid/reqraph",
-  "author": "Kaid Wong",
+  "author": "Kaid Wong <info@kaid.me>",
   "license": "MIT",
   "private": false,
   "scripts": {
