@@ -1,4 +1,4 @@
-import reqraph from '.';
+import reqraph, { InvalidReqraphError } from '.';
 
 test('reqraph', () => {
   const graph1 = [
@@ -31,4 +31,34 @@ test('reqraph', () => {
   ];
 
   expect(reqraph(graph2)).toEqual(sorted2);
+});
+
+test('validate', () => {
+  function shouldValidate(graph) {
+    return () => reqraph(graph);
+  }
+
+  const graph1 = [
+    { identity: 'A', requirements: ['B'] },
+    { identity: 'B', requirements: ['C'] },
+    { identity: 'C', requirements: ['A'] },
+  ];
+  
+  expect(shouldValidate(graph1)).toThrow(InvalidReqraphError);
+
+  const graph2 = [
+    { identity: 'A', requirements: ['A'] },
+    { identity: 'B', requirements: ['B'] },
+    { identity: 'C', requirements: ['C'] },
+  ];
+  
+  expect(shouldValidate(graph2)).toThrow(InvalidReqraphError);
+
+  const graph3 = [
+    { identity: 'A', requirements: ['B', 'C'] },
+    { identity: 'B', requirements: ['D'] },
+    { identity: 'C', requirements: ['X', 'Z'] },
+  ];
+  
+  expect(shouldValidate(graph2)).toThrow(InvalidReqraphError);
 });
