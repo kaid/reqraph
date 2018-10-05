@@ -1,20 +1,34 @@
-/* global test */
-import reqraph from './index';
+import reqraph from '.';
 
 test('reqraph', () => {
-  const graph = [
-    { key: 'A', requirements: ['B', 'C'] },
-    { key: 'B', requirements: ['C'] },
-    { key: 'C', requirements: ['D'] },
-    { key: 'D', requirements: [] },
+  const graph1 = [
+    { identity: 'A', requirements: ['B', 'C'] },
+    { identity: 'B', requirements: ['C'] },
+    { identity: 'C', requirements: ['D'] },
+    { identity: 'D', requirements: [] },
   ];
 
-  const ranked = [
-    [{ key: 'D', requirements: [] }],
-    [{ key: 'C', requirements: ['D'] }],
-    [{ key: 'B', requirements: ['C'] }],
-    [{ key: 'A', requirements: ['B', 'C'] }],
+  const sorted1 = [
+    [{ identity: 'D', requirements: [] }],
+    [{ identity: 'C', requirements: ['D'] }],
+    [{ identity: 'B', requirements: ['C'] }],
+    [{ identity: 'A', requirements: ['B', 'C'] }],
   ];
 
-  expect(reqraph(graph)).toEqual(ranked);
+  expect(reqraph(graph1)).toEqual(sorted1);
+
+  const graph2 = [
+    { identity: 'A', requirements: ['B', 'C'] },
+    { identity: 'B', requirements: ['D'] },
+    { identity: 'C', requirements: ['D'] },
+    { identity: 'D', requirements: [] },
+  ];
+
+  const sorted2 = [
+    [{ identity: 'D', requirements: [] }],
+    [{ identity: 'B', requirements: ['D'] }, { identity: 'C', requirements: ['D'] }],
+    [{ identity: 'A', requirements: ['B', 'C'] }],
+  ];
+
+  expect(reqraph(graph2)).toEqual(sorted2);
 });

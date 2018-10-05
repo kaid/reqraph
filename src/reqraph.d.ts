@@ -1,5 +1,5 @@
 export interface ReqraphItem {
-  key: string;
+  identity: string;
   requirements: string[];
 }
 
