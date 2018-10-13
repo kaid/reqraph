@@ -1,4 +1,4 @@
-import { concat, difference, reduce } from 'lodash/fp';
+import { concat, difference, reduce, map } from 'lodash/fp';
 import { Reqraph, SortedReqraph } from './reqraph';
 
 export class InvalidReqraphError extends Error {
@@ -14,7 +14,14 @@ function sortReqraph(input: Sorting, output: SortedReqraph): SortedReqraph {
   const nextInput = reduce(
     (result, item) => (
       item.requirements.length
-      && difference(item.requirements, result.identities).length
+      && difference(
+        item.requirements,
+        result.identities,
+      ).length
+      || difference(
+        item.requirements,
+        map(i => i.identity, result.sorted),
+      ).length < item.requirements.length
     )
     ? {
       ...result,
