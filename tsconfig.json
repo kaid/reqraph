@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "types": ["lodash/fp", "jest"],
-    "lib": ["es7", "dom"]
+    "lib": ["es7", "dom"],
+    "outDir": "lib"
   }
 }

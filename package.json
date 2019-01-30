@@ -1,8 +1,8 @@
 {
   "name": "reqraph",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A requirements scheduler.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": "https://github.com/kaid/reqraph",
   "author": "Kaid Wong <info@kaid.me>",
   "license": "MIT",
@@ -10,9 +10,12 @@
   "scripts": {
     "test": "jest"
   },
+  "files": [
+    "lib/index.js"
+  ],
   "devDependencies": {
     "@types/jest": "^23.3.3",
-    "@types/lodash": "^4.14.116",
+    "@types/lodash": "^4.14.119",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
     "ts-jest": "^23.10.3",
